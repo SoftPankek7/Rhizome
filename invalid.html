@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Invalid Access</h1>
+        <p>You are NOT allowed to open <b><span id="loc">(please allow JS)</span></b>.</p>
+        <p>If this seems wrong, please contact the server maintaner.</p>
+    </body>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", ()=>{
+            document.getElementById("loc").innerText = window.location.href;
+        })
+    </script>
+</html>

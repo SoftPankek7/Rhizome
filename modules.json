@@ -1,0 +1,13 @@
+[
+    {
+        "name": "alert",
+        "reason": "for /alertDemo/ API test",
+        "apiHook": "alertDemo"
+    },
+
+    {
+        "name": "battery",
+        "reason": "Battery reading Example",
+        "apiHook": "battery"
+    }
+]
