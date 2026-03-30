@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Battery Energy Core</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", system-ui, sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background: black;
+    }
+
+    /* 🌌 Animated background */
+    body::before {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at 30% 30%, #00ffcc22, transparent),
+                    radial-gradient(circle at 70% 60%, #0077ff22, transparent),
+                    radial-gradient(circle at 50% 80%, #00ff8822, transparent);
+        animation: bgMove 20s infinite linear;
+        z-index: 0;
+    }
+
+    @keyframes bgMove {
+        0% { transform: translate(0,0); }
+        50% { transform: translate(-10%, -10%); }
+        100% { transform: translate(0,0); }
+    }
+
+    /* 🔮 Orb container */
+    .orb {
+        position: relative;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        backdrop-filter: blur(20px);
+        background: rgba(255,255,255,0.05);
+        box-shadow: 
+            inset 0 0 40px rgba(255,255,255,0.1),
+            0 0 60px rgba(0,255,200,0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+    }
+
+    /* 🌊 Liquid fill */
+    .liquid {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(180deg, #00ffc3, #0077ff);
+        border-radius: 50%;
+        filter: blur(6px);
+        transition: height 0.8s ease, background 0.5s ease;
+        animation: wave 4s infinite ease-in-out;
+    }
+
+    @keyframes wave {
+        0%,100% { transform: translateY(0px); }
+        50% { transform: translateY(-6px); }
+    }
+
+    /* 💡 Glow layer */
+    .glow {
+        position: absolute;
+        width: 120%;
+        height: 120%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(0,255,200,0.3), transparent);
+        filter: blur(30px);
+        opacity: 0.7;
+        transition: background 0.5s ease;
+    }
+
+    /* 🔢 Text */
+    .text {
+        position: relative;
+        color: white;
+        font-size: 48px;
+        font-weight: 600;
+        text-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="orb">
+    <div class="glow" id="glow"></div>
+    <div class="liquid" id="liquid"></div>
+    <div class="text"><span id="bat">--</span>%</div>
+</div>
+
+<script>
+function updateUI(level) {
+    const liquid = document.getElementById("liquid");
+    const glow = document.getElementById("glow");
+
+    liquid.style.height = level + "%";
+
+    if (level < 20) {
+        liquid.style.background = "linear-gradient(180deg, #ff3b3b, #ff0000)";
+        glow.style.background = "radial-gradient(circle, rgba(255,0,0,0.5), transparent)";
+    } else if (level < 60) {
+        liquid.style.background = "linear-gradient(180deg, #ffd93b, #ff8800)";
+        glow.style.background = "radial-gradient(circle, rgba(255,200,0,0.4), transparent)";
+    } else {
+        liquid.style.background = "linear-gradient(180deg, #00ffc3, #0077ff)";
+        glow.style.background = "radial-gradient(circle, rgba(0,255,200,0.4), transparent)";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    setInterval(() => {
+        fetch("/api/battery")
+            .then(res => res.text())
+            .then(data => {
+                const level = parseInt(data);
+                document.getElementById("bat").innerText = level;
+                updateUI(level);
+            });
+    }, 1000);
+});
+</script>
+
+</body>
+</html>
