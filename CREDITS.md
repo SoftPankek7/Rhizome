@@ -1,0 +1,3 @@
+ -  [Base HTTP Server Model](https://pythonbasics.org/webserver/)
+ -  [How HTML Forms Work](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Sending_and_retrieving_form_data)
+ -  [Local Net 2](https://stackoverflow.com/a/166589)
